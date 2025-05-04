@@ -30,7 +30,6 @@ An AI-powered web application that automatically transcribes and summarizes meet
 
 ### Prerequisites
 - Python 3.8+
-- Node.js (for optional frontend builds)
 - Google Gemini API key
 - AssemblyAI API key
 
