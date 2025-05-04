@@ -38,5 +38,5 @@ An AI-powered web application that automatically transcribes and summarizes meet
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/meeting-notes-summarizer.git
-   cd meeting-notes-summarizer
+   git clone https://github.com/biniyam93/Automated-Meeting-Notes-Summarizer.git
+   cd Automated-Meeting-Notes-Summarizer
