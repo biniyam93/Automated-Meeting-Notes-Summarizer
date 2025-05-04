@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting Notes Summarizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .file-upload-area.drag-over {
+            background-color: #ebf8ff;
+            border-color: #4299e1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen py-8 px-4">
+    <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">Automated Meeting Notes Summarizer</h1>
+        <p class="text-center text-gray-600 mb-4">Upload a meeting recording (MP3/WAV/M4A) to get AI-generated transcript and summary.</p>
+        <p class="text-center text-sm text-gray-500 mb-6">Maximum file size: {{ max_file_size//1024//1024 }}MB</p>
+        
+        <form id="uploadForm" class="space-y-4 mb-6">
+            <div id="fileUploadArea" class="file-upload-area flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                <div id="uploadPrompt" class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                    </svg>
+                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                    <p class="text-xs text-gray-500">MP3, WAV or M4A (MAX {{ max_file_size//1024//1024 }}MB)</p>
+                </div>
+                <div id="fileInfo" class="hidden p-4 text-center">
+                    <p id="fileName" class="font-medium text-gray-700"></p>
+                    <p id="fileSize" class="text-sm text-gray-500"></p>
+                </div>
+                <input id="audioFile" type="file" class="hidden" accept=".mp3,.wav,.m4a" required>
+            </div>
+            <button type="submit" id="submitBtn" class="w-48 flex justify-center items-center px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:bg-blue-400">
+                <span class="button-text">Summarize</span>
+                <span class="spinner ml-2 hidden"></span>
+            </button>
+        </form>
+        
+        <div id="error" class="hidden bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p id="error-message" class="text-sm text-red-700"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="results" class="hidden space-y-8">
+            <div class="result-section relative">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800">Transcript</h2>
+                    <button onclick="copyToClipboard('transcript')" class="copy-btn px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-200 transition-colors">Copy</button>
+                </div>
+                <div id="transcript" class="bg-gray-50 p-4 rounded-lg border border-gray-200 max-h-96 overflow-y-auto whitespace-pre-wrap"></div>
+            </div>
+            
+            <div class="result-section relative">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800">Summary</h2>
+                    <button onclick="copyToClipboard('summary')" class="copy-btn px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-md hover:bg-blue-200 transition-colors">Copy</button>
+                </div>
+                <div id="summary" class="bg-gray-50 p-4 rounded-lg border border-gray-200 max-h-96 overflow-y-auto whitespace-pre-wrap"></div>
+            </div>
+        </div>
+    </div>
+    <script src="static/script.js"></script>
+</body>
+</html>
