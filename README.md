@@ -1,6 +1,6 @@
 # Meeting Notes Summarizer
 
-![Project Screenshot](static/screenshot.png) <!-- Add a screenshot if available -->
+![Project Screenshot](static/Screenshot.png) <!-- Add a screenshot if available -->
 
 An AI-powered web application that automatically transcribes and summarizes meeting recordings into concise notes.
 
