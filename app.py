@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, jsonify
-import requests
+from flask import Flask, render_template, request, jsonify # type: ignore
+import requests # type: ignore
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv # type: ignore
 import time
-import google.generativeai as genai
+import google.generativeai as genai # type: ignore
 
 load_dotenv()
 
